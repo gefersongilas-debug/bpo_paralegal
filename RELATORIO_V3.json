@@ -1,0 +1,218 @@
+{
+  "serv_societ_docs": {
+    "remote_reused": {
+      "606218-75ac62331757be7456de35c92951e4b5.png": {
+        "local": "/serv_societ_docs/assets/images/0.png",
+        "occurrences": 2
+      },
+      "606218-d1d90c594d0055028e4a30f85a327966.png": {
+        "local": "/serv_societ_docs/assets/images/2.png",
+        "occurrences": 2
+      },
+      "606218-088eee4fb5a3515ee8089542a4d0c631.jpg": {
+        "local": "/serv_societ_docs/assets/images/3.jpg",
+        "occurrences": 2
+      },
+      "PKm2EsiOebOPT9jXDtjLImKv.webp": {
+        "local": "/serv_societ_docs/assets/images/4.webp",
+        "occurrences": 1
+      },
+      "606218-78c504eb9dd992391d3c28e6cd9b1178.png": {
+        "local": "/serv_societ_docs/assets/images/5.png",
+        "occurrences": 2
+      }
+    },
+    "inline_images": {
+      "inline-6cf50e695f91.svg": {
+        "mime": "image/svg+xml",
+        "size": 654,
+        "uses": 1
+      },
+      "inline-ba00f0bc83ac.svg": {
+        "mime": "image/svg+xml",
+        "size": 214,
+        "uses": 2
+      },
+      "inline-ba3b08e3f25f.svg": {
+        "mime": "image/svg+xml",
+        "size": 266,
+        "uses": 3
+      },
+      "inline-21bc2a09e4f4.svg": {
+        "mime": "image/svg+xml",
+        "size": 140,
+        "uses": 4
+      },
+      "inline-5cd9b30a824e.svg": {
+        "mime": "image/svg+xml",
+        "size": 534,
+        "uses": 2
+      },
+      "inline-8f8cbfccbb32.svg": {
+        "mime": "image/svg+xml",
+        "size": 136,
+        "uses": 2
+      },
+      "inline-59b9c679ee99.svg": {
+        "mime": "image/svg+xml",
+        "size": 136,
+        "uses": 2
+      },
+      "inline-3e2b24afe9f8.svg": {
+        "mime": "image/svg+xml",
+        "size": 190,
+        "uses": 2
+      },
+      "inline-7a2fd704d214.svg": {
+        "mime": "image/svg+xml",
+        "size": 107,
+        "uses": 2
+      },
+      "inline-0bdf138827d4.svg": {
+        "mime": "image/svg+xml",
+        "size": 189,
+        "uses": 2
+      },
+      "inline-38163d9dbdbb.png": {
+        "mime": "image/png",
+        "size": 515,
+        "uses": 1
+      },
+      "inline-1dadf2cf9362.png": {
+        "mime": "image/png",
+        "size": 486,
+        "uses": 1
+      }
+    },
+    "by_file": {
+      "index.html": {
+        "inline_uses": 2,
+        "unconverted_data_images": 0,
+        "remaining_fallback_urls": 0
+      },
+      "assets/css/style.css": {
+        "inline_uses": 18,
+        "unconverted_data_images": 0,
+        "remaining_fallback_urls": 0
+      },
+      "assets/js/main.js": {
+        "inline_uses": 4,
+        "unconverted_data_images": 0,
+        "remaining_fallback_urls": 0
+      }
+    },
+    "google_font_dns_hints_removed": 5,
+    "local_css_hints_enabled": 1,
+    "minimum_mobile_width_fit": 360,
+    "fontawesome_remote_unused_rule_removed": 1,
+    "external_phone_utility_options_removed": 2,
+    "font_face_rules_kept": 17,
+    "font_face_rules_missing_removed": 188
+  },
+  "paralegal": {
+    "remote_reused": {
+      "606218-75ac62331757be7456de35c92951e4b5.png": {
+        "local": "/paralegal/assets/images/0.png",
+        "occurrences": 2
+      },
+      "606218-d1d90c594d0055028e4a30f85a327966.png": {
+        "local": "/paralegal/assets/images/2.png",
+        "occurrences": 2
+      },
+      "606218-088eee4fb5a3515ee8089542a4d0c631.jpg": {
+        "local": "/paralegal/assets/images/3.jpg",
+        "occurrences": 2
+      },
+      "606218-78c504eb9dd992391d3c28e6cd9b1178.png": {
+        "local": "/paralegal/assets/images/4.png",
+        "occurrences": 2
+      }
+    },
+    "inline_images": {
+      "inline-6cf50e695f91.svg": {
+        "mime": "image/svg+xml",
+        "size": 654,
+        "uses": 1
+      },
+      "inline-ba00f0bc83ac.svg": {
+        "mime": "image/svg+xml",
+        "size": 214,
+        "uses": 2
+      },
+      "inline-ba3b08e3f25f.svg": {
+        "mime": "image/svg+xml",
+        "size": 266,
+        "uses": 3
+      },
+      "inline-21bc2a09e4f4.svg": {
+        "mime": "image/svg+xml",
+        "size": 140,
+        "uses": 4
+      },
+      "inline-5cd9b30a824e.svg": {
+        "mime": "image/svg+xml",
+        "size": 534,
+        "uses": 2
+      },
+      "inline-8f8cbfccbb32.svg": {
+        "mime": "image/svg+xml",
+        "size": 136,
+        "uses": 2
+      },
+      "inline-59b9c679ee99.svg": {
+        "mime": "image/svg+xml",
+        "size": 136,
+        "uses": 2
+      },
+      "inline-3e2b24afe9f8.svg": {
+        "mime": "image/svg+xml",
+        "size": 190,
+        "uses": 2
+      },
+      "inline-7a2fd704d214.svg": {
+        "mime": "image/svg+xml",
+        "size": 107,
+        "uses": 2
+      },
+      "inline-0bdf138827d4.svg": {
+        "mime": "image/svg+xml",
+        "size": 189,
+        "uses": 2
+      },
+      "inline-38163d9dbdbb.png": {
+        "mime": "image/png",
+        "size": 515,
+        "uses": 1
+      },
+      "inline-1dadf2cf9362.png": {
+        "mime": "image/png",
+        "size": 486,
+        "uses": 1
+      }
+    },
+    "by_file": {
+      "index.html": {
+        "inline_uses": 2,
+        "unconverted_data_images": 0,
+        "remaining_fallback_urls": 0
+      },
+      "assets/css/style.css": {
+        "inline_uses": 18,
+        "unconverted_data_images": 0,
+        "remaining_fallback_urls": 0
+      },
+      "assets/js/main.js": {
+        "inline_uses": 4,
+        "unconverted_data_images": 0,
+        "remaining_fallback_urls": 0
+      }
+    },
+    "google_font_dns_hints_removed": 5,
+    "local_css_hints_enabled": 1,
+    "minimum_mobile_width_fit": 360,
+    "fontawesome_remote_unused_rule_removed": 1,
+    "external_phone_utility_options_removed": 2,
+    "font_face_rules_kept": 17,
+    "font_face_rules_missing_removed": 188
+  }
+}

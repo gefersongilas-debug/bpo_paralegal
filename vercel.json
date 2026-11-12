@@ -1,0 +1,26 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "redirects": [
+    {
+      "source": "/serv_societ_docs",
+      "destination": "/serv_societ_docs/",
+      "permanent": true
+    },
+    {
+      "source": "/paralegal",
+      "destination": "/paralegal/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/serv_societ_docs/",
+      "destination": "/serv_societ_docs/index.html"
+    },
+    {
+      "source": "/paralegal/",
+      "destination": "/paralegal/index.html"
+    }
+  ]
+}
