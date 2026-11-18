@@ -1236,7 +1236,7 @@ function EnviarFormulario(elemento){
  
  
  // Insira a URL do webhook no data-webhook-url deste formulário, no respectivo index.html.
- var webhookLP = String(elemento.find('form.e_formulario').attr('data-webhook-url') || '').trim();
+ var webhookLP = String(elemento.closest('form.e_formulario').attr('data-webhook-url') || elemento.find('form.e_formulario').attr('data-webhook-url') || '').trim();
  if (!/^https:\/\/[^\s]+$/i.test(webhookLP)){
    $('body').removeClass('body_bloquear');
    $('.aviso_fundo, .aviso_texto').remove();
