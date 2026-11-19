@@ -1289,17 +1289,21 @@ function EnviarFormulario(elemento){
  post['euser'] = typeof u == 'undefined' ? '' :u;
  
  
- // Atribuicao de marketing em cada envio: campos nomeados e objeto tracking no Make.
+ // BPO | Campos individuais na raiz do JSON (sem o array/objeto 'campos').
+ // As duas LPs usam os mesmos nomes para facilitar o mapeamento no Google Sheets.
+ post.nome = String(elemento.find('input[name="nome"]').first().val() || '').trim();
+ post.empresa = String(elemento.find('input[name="empresa"]').first().val() || '').trim();
+ post.email = String(elemento.find('input[name="e-mail"]').first().val() || '').trim();
+ post.telefone = String(elemento.find('input[name="telefonewhatsapp"]').first().val() || '').trim();
+ post.servico = String(elemento.find('.gpc_campos-radio input[type="radio"]:checked').first().val() || '').trim();
+ post.origem_referencia = document.referrer || 'Acesso direto';
+ post.dispositivo = Mobile() ? 'Mobile' : 'Desktop';
+ post.url_formulario = window.location.href;
+
+ // UTMs, IDs de anuncios e metadados tambem seguem como tags individuais.
  var bpoTracking = BPOTrackingPayload();
- post['tracking'] = bpoTracking;
- Object.keys(bpoTracking).forEach(function(chave){
-   // Mapear diretamente no Make: utm_source, gclid, url_pagina, etc.
-   post[chave] = bpoTracking[chave];
-   if (typeof bpoTracking[chave] !== 'object') {
-     total_campos += 1;
-     post['campos'][total_campos] = {id:'input_'+chave, titulo:chave, valor:bpoTracking[chave]};
-   }
- });
+ Object.keys(bpoTracking).forEach(function(chave){ post[chave] = bpoTracking[chave]; });
+ delete post.campos;
 
  // Insira a URL do webhook no data-webhook-url deste formulário, no respectivo index.html.
  var webhookLP = String(elemento.find('form[data-webhook-url]').first().attr('data-webhook-url') || elemento.attr('data-webhook-url') || '').trim();
