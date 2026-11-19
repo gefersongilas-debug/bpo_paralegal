@@ -1147,9 +1147,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 function EnviarWebhookIndividualLP(parametros){
   var abortController = typeof AbortController === 'function' ? new AbortController() : null;
   var timeoutId = setTimeout(function(){ if (abortController) abortController.abort(); }, parametros.timeout || 10000);
-  var options = { method:'POST', credentials:'omit', mode:'cors', headers:{'Content-Type':'application/json'}, body:parametros.uri };
+  var options = { method:'POST', credentials:'omit', mode:'same-origin', headers:{'Content-Type':'application/json'}, body:parametros.uri };
   if (abortController) options.signal = abortController.signal;
-  fetch(parametros.url, options).then(function(resposta){
+  fetch('/api/bpo-lead', options).then(function(resposta){
     if (!resposta.ok) throw new Error('Webhook respondeu HTTP ' + resposta.status);
     return resposta.text();
   }).then(function(retorno){
@@ -1160,10 +1160,64 @@ function EnviarWebhookIndividualLP(parametros){
       }
     } catch (erro) { console.error('Falha ao tratar pós-envio do formulário:', erro); }
   }).catch(function(erro){
-    console.error('Falha no envio direto do formulário:', erro);
+    console.error('Falha no envio do formulário via Vercel:', erro);
     if (typeof parametros.funcao_erro === 'function') parametros.funcao_erro(erro);
   }).finally(function(){ clearTimeout(timeoutId); });
 }
+
+// BPO | Captura de UTMs e origem do lead, sem dependencia de cookies externos.
+function BPOTrackingPayload() {
+  var standard = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_id',
+    'utm_source_platform','utm_creative_format','utm_marketing_tactic',
+    'gclid','gbraid','wbraid','dclid','fbclid','msclkid','ttclid','twclid','li_fat_id','srsltid'];
+  var clickIds = ['gclid','gbraid','wbraid','dclid','fbclid','msclkid','ttclid','twclid','li_fat_id','srsltid'];
+  var params = {};
+  var urlParams = new URLSearchParams(window.location.search);
+  urlParams.forEach(function (value, key) {
+    var k = key.toLowerCase();
+    if ((k.indexOf('utm_') === 0 || clickIds.indexOf(k) !== -1) && value) {
+      params[k] = String(value).slice(0, 500);
+    }
+  });
+  var storeKey = 'bpo_atribuicao_v1';
+  var saved = {};
+  try { saved = JSON.parse(sessionStorage.getItem(storeKey) || '{}') || {}; } catch (_) {}
+  var date = new Date();
+  if (!saved.primeira_pagina) {
+    saved.primeira_pagina = window.location.href;
+    saved.primeiro_referrer = document.referrer || '';
+    saved.primeiro_acesso_em = date.toISOString();
+  }
+  if (Object.keys(params).length) {
+    if (!saved.primeiros_parametros || !Object.keys(saved.primeiros_parametros).length) {
+      saved.primeiros_parametros = Object.assign({}, params);
+    }
+    saved.ultimos_parametros = Object.assign({}, saved.ultimos_parametros || {}, params);
+    saved.ultima_url_campanha = window.location.href;
+  }
+  try { sessionStorage.setItem(storeKey, JSON.stringify(saved)); } catch (_) {}
+  var ativos = Object.assign({}, saved.ultimos_parametros || {}, params);
+  var info = {};
+  standard.forEach(function (key) { info[key] = ativos[key] || ''; });
+  Object.keys(ativos).forEach(function (key) { info[key] = ativos[key]; });
+  info.lp_origem = window.location.pathname.indexOf('serv_societ_docs') !== -1 ? 'serv_societ_docs' : 'paralegal';
+  info.url_pagina = window.location.href;
+  info.url_primeiro_acesso = saved.primeira_pagina || window.location.href;
+  info.url_ultima_campanha = saved.ultima_url_campanha || '';
+  info.dominio = window.location.hostname;
+  info.caminho_pagina = window.location.pathname;
+  info.titulo_pagina = document.title || '';
+  info.referrer = document.referrer || saved.primeiro_referrer || '';
+  info.referrer_primeiro_acesso = saved.primeiro_referrer || '';
+  info.primeiro_acesso_em = saved.primeiro_acesso_em || '';
+  info.enviado_em = date.toISOString();
+  info.enviado_em_brasilia = date.toLocaleString('pt-BR', {timeZone:'America/Sao_Paulo'});
+  info.utm_primeiro_toque = saved.primeiros_parametros || {};
+  info.utm_ultimo_toque = ativos;
+  return info;
+}
+
+try { BPOTrackingPayload(); } catch (e) { console.warn('BPO: atribuicao indisponivel', e); }
 
 function EnviarFormulario(elemento){
  GLoading.carregar({'ativar':true});
@@ -1235,8 +1289,20 @@ function EnviarFormulario(elemento){
  post['euser'] = typeof u == 'undefined' ? '' :u;
  
  
+ // Atribuicao de marketing em cada envio: campos nomeados e objeto tracking no Make.
+ var bpoTracking = BPOTrackingPayload();
+ post['tracking'] = bpoTracking;
+ Object.keys(bpoTracking).forEach(function(chave){
+   // Mapear diretamente no Make: utm_source, gclid, url_pagina, etc.
+   post[chave] = bpoTracking[chave];
+   if (typeof bpoTracking[chave] !== 'object') {
+     total_campos += 1;
+     post['campos'][total_campos] = {id:'input_'+chave, titulo:chave, valor:bpoTracking[chave]};
+   }
+ });
+
  // Insira a URL do webhook no data-webhook-url deste formulário, no respectivo index.html.
- var webhookLP = String(elemento.closest('form.e_formulario').attr('data-webhook-url') || elemento.find('form.e_formulario').attr('data-webhook-url') || '').trim();
+ var webhookLP = String(elemento.find('form[data-webhook-url]').first().attr('data-webhook-url') || elemento.attr('data-webhook-url') || '').trim();
  if (!/^https:\/\/[^\s]+$/i.test(webhookLP)){
    $('body').removeClass('body_bloquear');
    $('.aviso_fundo, .aviso_texto').remove();
