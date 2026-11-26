@@ -23,10 +23,13 @@ module.exports = async function handler(req, res) {
     const url = new URL(webhook);
     if (url.protocol !== 'https:') throw new Error('Invalid webhook protocol');
     const response = await fetch(url, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),signal:AbortSignal.timeout(12000),redirect:'error'});
-    if (!response.ok) throw new Error('Webhook status ' + response.status);
+    if (!response.ok) {
+      console.error('e-BEF: Make returned HTTP', response.status);
+      return res.status(502).json({ok:false,message:'O serviço de recebimento recusou o envio. Tente novamente em instantes.'});
+    }
     return res.status(200).json({ok:true});
   } catch (error) {
     console.error('Lead delivery failed:', error.name);
-    return res.status(502).json({ok:false,message:'Não foi possível enviar seus dados agora. Tente novamente em instantes.'});
+    return res.status(502).json({ok:false,message:error.name === 'TimeoutError' || error.name === 'AbortError' ? 'O serviço de recebimento demorou para responder. Tente novamente.' : 'Não foi possível conectar ao serviço de recebimento. Tente novamente em instantes.'});
   }
 };
