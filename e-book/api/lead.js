@@ -1,4 +1,4 @@
-// Vercel Node.js function. LEAD_WEBHOOK_URL must be configured server-side.
+// Vercel Node.js function — formulário BPO e-BEF (A/B).
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ok:false,message:'Método não permitido.'}); }
@@ -17,7 +17,7 @@ module.exports = async function handler(req, res) {
   if (data.nome.length < 2 || data.empresa.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return res.status(400).json({ok:false,message:'Confira os campos obrigatórios e o e-mail.'});
   for (const key of ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_id','gclid','gbraid','wbraid','fbclid','msclkid']) data[key] = get(key,500);
   data.pagina_url = get('pagina_url',2048); data.referrer = get('referrer',2048); data.origem = 'LP e-BEF'; data.lp_variant = 'A'; try { if (/^\/(?:e-book\/)?a-b(?:\/|$|\.html)/.test(new URL(data.pagina_url).pathname)) data.lp_variant = 'B'; } catch (_) {} data.data_envio = new Date().toISOString();
-  const webhook = process.env.LEAD_WEBHOOK_URL;
+  const webhook = process.env.BPO_EBEF_LEAD_WEBHOOK_URL || 'https://hook.us1.make.celonis.com/diu5bnlt7kholn8ni5q8kchxeie777zb';
   if (!webhook) return res.status(503).json({ok:false,message:'O serviço de envio está temporariamente indisponível. Tente novamente mais tarde.'});
   try {
     const url = new URL(webhook);
